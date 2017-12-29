@@ -1,15 +1,18 @@
 package com.untamemadman.plugins.sponge.dropparty;
 
-import com.untamemadman.plugins.sponge.dropparty.Main;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.data.manipulator.mutable.DisplayNameData;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.World;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -35,6 +38,10 @@ public class DropPartyCommand implements CommandExecutor
             Sponge.getServer().getBroadcastChannel().send(Text.join(prefix, Text.builder("Starting Drop Party at level " + Identifier).color(TextColors.AQUA).build()));
 
             Task task = Task.builder().execute(new CountDown()).interval(1, TimeUnit.SECONDS).name("Self-Cancelling Timer Task").submit(plugin);
+
+            World world = Sponge.getServer().getWorld("world").get();
+            Entity item = world.createEntity(EntityTypes.ITEM, world.getLocation(0.5,6,0.5).getPosition());
+            world.spawnEntity(item);
         }
         else
         {
