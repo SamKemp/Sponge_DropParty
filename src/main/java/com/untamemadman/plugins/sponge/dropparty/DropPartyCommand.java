@@ -1,11 +1,14 @@
 package com.untamemadman.plugins.sponge.dropparty;
 
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.DisplayNameData;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
@@ -14,6 +17,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.World;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -40,7 +44,10 @@ public class DropPartyCommand implements CommandExecutor
             Task task = Task.builder().execute(new CountDown()).interval(1, TimeUnit.SECONDS).name("Self-Cancelling Timer Task").submit(plugin);
 
             World world = Sponge.getServer().getWorld("world").get();
-            Entity item = world.createEntity(EntityTypes.ITEM, world.getLocation(0.5,6,0.5).getPosition());
+            Entity item = world.createEntity(EntityTypes.HUMAN, world.getLocation(0.5,6,0.5).getPosition());
+            item.offer(Keys.DISPLAY_NAME, Text.of(TextColors.DARK_AQUA, "My name is Jeff"));
+            item.offer(Keys.CUSTOM_NAME_VISIBLE, true);
+            item.offer(Keys.SKIN_UNIQUE_ID, UUID.fromString("481e87fe-0e6b-4867-bfe0-bb027ccb7806"));
             world.spawnEntity(item);
         }
         else
